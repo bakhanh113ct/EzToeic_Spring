@@ -1,15 +1,13 @@
 package com.alibou.security.Test;
 
-import com.alibou.security.Test.models.QuestionAnswerByIndex;
-import com.alibou.security.Test.models.SelectedAnswer;
-import com.alibou.security.Test.models.SubmitTestBody;
-import com.alibou.security.Test.models.Test;
+import com.alibou.security.Test.models.*;
 import com.alibou.security.question.Question;
 import com.alibou.security.result.model.Result;
 import com.alibou.security.result.ResultService;
 import com.alibou.security.result.model.ResultDetail;
 import com.alibou.security.user.User;
 import com.alibou.security.user.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +31,7 @@ public class TestController {
 
 
     @GetMapping
+    @JsonView(TestView.Base.class)
     public ResponseEntity<List<Test>> finalAllTests(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
         Pageable firstPageWithTwoElements = PageRequest.of(page, 1);
         Page<Test> pagedResult = testService.findAll(firstPageWithTwoElements);
@@ -46,7 +45,9 @@ public class TestController {
     }
 
     @GetMapping(path = "/{id}")
+    @JsonView(TestView.HaveQuestion.class)
     public ResponseEntity<Optional<Test>> findById(@PathVariable int id) {
+//        Optional<TestQuestionDTO> testQuestionDTO = ;
         return ResponseEntity.ok(testService.findById(id));
     }
 

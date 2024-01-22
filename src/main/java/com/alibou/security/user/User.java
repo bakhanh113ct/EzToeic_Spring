@@ -1,14 +1,12 @@
 package com.alibou.security.user;
 
+import com.alibou.security.flashcards.models.Flashcards;
 import com.alibou.security.result.model.Result;
 import com.alibou.security.token.Token;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,6 +52,10 @@ public class User implements UserDetails {
   @JsonIgnore
   @OneToMany(mappedBy = "user")
   private Set<Result> results = new HashSet<>();
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "user")
+  private List<Flashcards> flashcards = new ArrayList<>();
 
   @Override
   public boolean isAccountNonExpired() {

@@ -4,9 +4,7 @@ import com.alibou.security.Test.models.Test;
 import com.alibou.security.part.Part;
 import com.alibou.security.result.model.Result;
 import com.alibou.security.result.model.ResultDetail;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,21 +28,23 @@ import java.util.Set;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
+@JsonView(QuestionView.class)
 public class Question {
     @Id
     @GeneratedValue
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "test_id", referencedColumnName = "id")
     private Test test;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "part_id", referencedColumnName = "id")
     private Part part;
 
-//    @ManyToMany(mappedBy = "resultsDetail")
-//    private Set<Result> resultsDetail = new HashSet<>();
+    @JsonIgnore
     @OneToMany(mappedBy = "question")
     private List<ResultDetail> resultDetails = new ArrayList<>();
 

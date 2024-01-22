@@ -18,4 +18,8 @@ public interface TestRepository extends JpaRepository<Test, Integer> {
 
     @Query("SELECT q FROM Question q, Test t WHERE q.test.id = t.id AND t.id = :id")
     List<Question> findAllQuestionByTest(@Param("id") int id);
+
+//    @Override
+//    @Query("SELECT new com.alibou.security.Test.models.TestQuestionDTO(t.id, t.title, t.sectionCount, t.questionCount, t.time,t.questions, t.createdAt, t.updatedAt) FROM Test t WHERE  t.id = :id")
+//    Optional<TestQuestionDTO> findWithQuestionById(@Param("id") Integer id);
 }

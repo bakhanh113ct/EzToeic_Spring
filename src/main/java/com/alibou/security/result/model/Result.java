@@ -1,11 +1,8 @@
 package com.alibou.security.result.model;
 
 import com.alibou.security.Test.models.Test;
-import com.alibou.security.question.Question;
 import com.alibou.security.user.User;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 
 @Entity
 @Data
@@ -31,13 +25,15 @@ import java.util.Set;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
+@JsonView(ResultView.Base.class)
 public class Result {
     @Id
     @GeneratedValue
+    @JsonView(ResultView.Base.class)
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-//    @JsonIgnore
+    @JsonView(ResultView.Detail.class)
     @JoinColumn(name="test_id", referencedColumnName = "id")
     private Test test;
 
@@ -50,12 +46,19 @@ public class Result {
     @JsonIgnore
     private List<ResultDetail> resultDetails = new ArrayList<>();
 
+    @JsonView(ResultView.Base.class)
     private String state;
+    @JsonView(ResultView.Base.class)
     private String score;
+    @JsonView(ResultView.Base.class)
     private int readingCorrectCount;
+    @JsonView(ResultView.Base.class)
     private int correctCount;
+    @JsonView(ResultView.Base.class)
     private int wrongCount;
+    @JsonView(ResultView.Base.class)
     private int undoneCount;
+    @JsonView(ResultView.Base.class)
     private String time;
 
     @CreatedDate
@@ -63,10 +66,12 @@ public class Result {
             nullable = false,
             updatable = false
     )
+    @JsonView(ResultView.Base.class)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(insertable = false)
+    @JsonView(ResultView.Base.class)
     private LocalDateTime updatedAt;
 
 }

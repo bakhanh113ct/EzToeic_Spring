@@ -21,6 +21,9 @@ public class TestService {
     public Optional<Test> findById(int id) {
         return repository.findById(id);
     }
+//    public Optional<TestQuestionDTO> findWithQuestionById(int id) {
+//        return repository.findWithQuestionById(id);
+//    }
 
     public List<QuestionAnswerByIndex> findSolutionByTestId(int id) {
         return repository.findQuestionAnswersByTest(id);

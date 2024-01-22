@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,10 +21,15 @@ public class ResultService {
         return resultRepository.findAll();
     }
 
+    public Result findById(int id, Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return resultRepository.findById(id).get();
+    }
+
     public List<Result> finAllResultByTest(int id, Principal connectedUser) {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         //        System.out.println(user.getEmail());
-        return resultRepository.findResultsByUser(user.getId(), id);
+        return resultRepository.findResultsByTest(user.getId(), id);
     }
 
     @Transactional
@@ -35,5 +39,10 @@ public class ResultService {
 
     public ResultDetail saveResultDetail(ResultDetail resultDetail) {
         return resultDetailRepository.save(resultDetail);
+    }
+
+    public List<Result> finAllResultByUser(Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return resultRepository.findResultsByUser(user.getId());
     }
 }

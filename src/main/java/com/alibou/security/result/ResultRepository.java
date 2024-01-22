@@ -11,5 +11,8 @@ import java.util.List;
 @Repository
 public interface ResultRepository extends JpaRepository<Result, Integer> {
     @Query("SELECT r FROM Result r WHERE r.user.id = :userId AND r.test.id = :testId")
-    List<Result> findResultsByUser(@Param("userId") int userId, @Param("testId") int testId);
+    List<Result> findResultsByTest(@Param("userId") int userId, @Param("testId") int testId);
+
+    @Query("SELECT r FROM Result r WHERE r.user.id = :userId")
+    List<Result> findResultsByUser(@Param("userId") int userId);
 }

@@ -1,6 +1,7 @@
 package com.alibou.security.part;
 
 import com.alibou.security.question.Question;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Part {
     @GeneratedValue
     private Integer id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "part")
     private Set<Question> questions = new HashSet<>();
 
